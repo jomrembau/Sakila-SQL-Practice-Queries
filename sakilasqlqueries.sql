@@ -144,8 +144,12 @@ JOIN rental r ON r.customer_id = c.customer_id
 GROUP BY c.customer_id;
 
 -- 26. Show PG-rated Comedy films
-SELECT * FROM film
-WHERE description LIKE '%Comedy%' AND rating = 'PG';
+SELECT * FROM film f
+JOIN film_category fc
+ON fc.film_id = f.film_id
+JOIN category c
+ON c.category_id = fc.category_id
+WHERE c.name = 'Comedy' AND f.rating ='PG'
 
 -- 27. Show actors with more than 20 films
 SELECT a.actor_id, a.first_name, a.last_name, COUNT(*) 
