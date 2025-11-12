@@ -33,4 +33,33 @@ LEFT JOIN inventory i ON f.film_id = i.film_id
 LEFT JOIN rental r ON r.inventory_id = i.inventory_id  
 LEFT JOIN payment p ON p.rental_id = r.rental_id        
 GROUP BY f.title                          
-HAVING COUNT(r.rental_id) > 5;          
+HAVING COUNT(r.rental_id) > 5;     
+
+
+
+-- Find the top 5 customers who rented the most films. Show first_name, last_name, and the number of rentals.
+
+SELECT 	c.customer_id,
+		c.first_name,
+        c.last_name,
+        COUNT(p.rental_id)
+        FROM customer c 
+INNER JOIN payment p 
+ON c.customer_id = p.customer_id
+GROUP BY c.customer_id,
+		c.first_name,
+        c.last_name
+ORDER BY COUNT(p.rental_id) DESC
+LIMIT 5;
+
+
+-- Show all films that were never rented. Display title and release_year.
+
+
+SELECT * FROM film f 
+LEFT JOIN inventory i 
+ON f.film_id = i.film_id
+LEFT JOIN rental r
+ON r.inventory_id = i.inventory_id
+WHERE rental_id is NULL;
+
